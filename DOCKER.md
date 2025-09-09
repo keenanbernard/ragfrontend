@@ -2,7 +2,7 @@
 From project root, run:
 ```shell
 
-docker-compose up --build
+docker-compose up --build -d
 ```
 This command starts services:
 - 
@@ -15,6 +15,10 @@ Run this command in another terminal to connect your Node server container to th
 docker network create rag_network
 docker network connect rag_network ragchatbot-server-1
 docker network connect rag_network pythonraglocal-rag_query-1
+```
+Verify network using:
+```shell
+docker inspect rag_network
 ```
 
 # Step 3: Restart Node.js container

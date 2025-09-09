@@ -9,15 +9,12 @@ This project serves as a React frontend for interacting with a Flask API that ma
     - Users can input queries via a chat-like interface.
     - Questions appear immediately on the right in a user bubble, and chatbot answers appear on the left in a separate bubble.
     - Auto-scroll ensures the latest messages are always visible.
-- **Initialize Document Index**:
-    - Upload PDF chunks and embeddings to Pinecone or other vector databases via the Flask API.
 - **Query Index**:
     - Send natural language queries to retrieve relevant embeddings and receive answers from the Flask API.
 
 ## Prerequisites
 
 Ensure you have the following installed:
-
 - Node.js (v16+ recommended)
 - npm (Node Package Manager)
  - **A Running Flask Backend**:

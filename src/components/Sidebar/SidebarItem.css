@@ -2,7 +2,6 @@
     padding: 10px 15px;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s;
 }
 
 .sidebar-item:hover {
@@ -10,7 +9,32 @@
 }
 
 .sidebar-item.active {
-    background-color: #555; /* Highlight active chat */
-    color: #fff; /* Change text color for active chat */
-    font-weight: bold; /* Make active chat title bold */
+    background-color: #555;
+    color: #fff;
+    font-weight: bold;
+}
+
+.sidebar-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #292929;
+    /*transition: background-color 0.3s ease;*/
+}
+
+.sidebar-item:hover,
+.newChatBtn:hover {
+    background-color: #444;
+}
+
+.sidebar-item .options {
+    font-size: 1.2rem;
+    color: #999;
+}
+
+.sidebar-item {
+    font-size: .8rem;
 }
