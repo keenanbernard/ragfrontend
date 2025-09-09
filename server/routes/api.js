@@ -1,16 +1,17 @@
 const axios = require('axios');
 const FLASK_BASE_URL = 'http://127.0.0.1:5000/api/v1';
 const DOCKER_BASE_URL = 'http://localhost:8000/api/v1';
+const DOCKER_NETWORK_URL = 'http://pythonraglocal-rag_query-1:5000/api/v1';
 
 const axiosInstance = axios.create({
-    baseURL: DOCKER_BASE_URL,
+    baseURL: DOCKER_NETWORK_URL,
     timeout: 20000, // Timeout in milliseconds
 });
 
 // Function to call the initialize endpoint
 async function initializeIndex(directory) {
     try {
-        const response = await axiosInstance.post(`${DOCKER_BASE_URL}/initialize`, { directory });
+        const response = await axiosInstance.post(`${DOCKER_NETWORK_URL}/initialize`, { directory });
         console.log('Initialize Response:', response.data);
         return response.data;
     } catch (error) {
@@ -20,9 +21,9 @@ async function initializeIndex(directory) {
 }
 
 // Function to query the Flask API
-async function queryRAG(query) {
+async function queryRAG(query, role) {
     try {
-        const response = await axiosInstance.post(`${DOCKER_BASE_URL}/query`, { query });
+        const response = await axiosInstance.post(`${DOCKER_NETWORK_URL}/query`, { query, role});
         console.log('Query Response:', response.data);
         return response.data;
     } catch (error) {

@@ -35,14 +35,14 @@ app.post('/initialize', async (req, res) => {
 });
 
 app.post('/query', async (req, res) => {
-    const { query } = req.body;
+    const { query, role } = req.body;
 
     if (!query) {
         return res.status(400).json({ error: 'Query is required' });
     }
 
     try {
-        const response = await queryRAG(query);
+        const response = await queryRAG(query, role);
         res.json(response);
     } catch (error) {
         res.status(500).json({ error: 'Failed to get query response' });
