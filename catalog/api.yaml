@@ -13,5 +13,3 @@ spec:
   lifecycle: experimental
   owner: ai-rag-team
   system: rag-platform
-  definition:
-    $text: ./openapi.yaml
