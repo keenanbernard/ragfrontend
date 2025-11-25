@@ -1,10 +1,10 @@
-openapi: 3.0.0
+queryapi: 3.0.0
 info:
-  title: RAG NodeJS API
+  title: NodeJS API
   version: 1.0.0
   description: >
-    NodeJS backend for the RAG platform.  
-    Provides endpoints that interact with the underlying Flask RAG engine (embeddings, Pinecone, querying).
+    NodeJS backend api for the RAG platform.  
+    Provides endpoints that interact with the underlying Flask RAG engine on docker (querying)
 servers:
   - url: http://localhost:3001
     description: Local development server
@@ -13,7 +13,7 @@ paths:
     post:
       summary: Query the RAG system
       description: >
-        Sends a query and optional role to the Flask RAG backend,  
+        Sends the query and user's role to the Flask backend,  
         which performs vector search + LLM completion.
       requestBody:
         required: true
@@ -26,10 +26,10 @@ paths:
               properties:
                 query:
                   type: string
-                  example: "How do I renew certificates for WCF?"
+                  example: "Can you explain the flexible work arrangement policy?"
                 role:
                   type: string
-                  example: "developer"
+                  example: "general-user"
       responses:
         '200':
           description: RAG response returned
@@ -40,7 +40,7 @@ paths:
                 properties:
                   answer:
                     type: string
-                    example: "You can renew WCF certs by..."
+                    example: "The flexible work arrangement policy entails..."
                   sources:
                     type: array
                     items:
