@@ -2,16 +2,15 @@ apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
   name: rag-query-api
-  description: API rest call for querying the RAG system through node
+  description: API rest call for querying the RAG system
   tags:
-    - rest-api
+    - api
     - rag
-    - json
+    - nodejs
 spec:
-  type: query_api
+  type: openapi
   lifecycle: experimental
   owner: ai-rag-team
   system: rag-platform
   definition:
-    $text: ./query_api.yaml
-
+    $text: ./openapi.yaml
