@@ -4,7 +4,7 @@ metadata:
   name: pinecone-rag-index
   links:
     - url: https://app.pinecone.io/organizations/-NtRmSfTJhj9K5iZ0iGq/projects/63f761df-b71f-49b9-b5a9-1158eb32c6a1/indexes/pdf-policies/browser
-      title: Pinecone Database
+      title: Pinecone Vector Database
       icon: dashboard
   description: Pinecone vector index storing embeddings for the RAG system
   tags:
