@@ -2,24 +2,15 @@ apiVersion: backstage.io/v1alpha1
 kind: Resource
 metadata:
   name: pinecone-rag-index
+  links:
+    - url: https://app.pinecone.io/organizations/-NtRmSfTJhj9K5iZ0iGq/projects/63f761df-b71f-49b9-b5a9-1158eb32c6a1/indexes/pdf-policies/browser
+      title: Pinecone Database
+      icon: dashboard
   description: Pinecone vector index storing embeddings for the RAG system
   tags:
     - pinecone
     - vector-db
 spec:
   type: vector-index
-  owner: ai-rag-team
-  system: rag-platform
----
-apiVersion: backstage.io/v1alpha1
-kind: Resource
-metadata:
-  name: rag-logging-db
-  description: Database used to store RAG logs, admin actions, and audit events
-  tags:
-    - database
-    - oracle
-spec:
-  type: database
   owner: ai-rag-team
   system: rag-platform
