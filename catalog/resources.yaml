@@ -9,14 +9,3 @@ spec:
   type: vector-index
   owner: ai-rag-team
   system: rag-knowledge-platform
-
----
-apiVersion: backstage.io/v1alpha1
-kind: Resource
-metadata:
-  name: oracle-logging-db
-  description: Oracle schema / table used for logging RAG queries and admin actions
-spec:
-  type: database
-  owner: ai-rag-team
-  system: rag-knowledge-platform
