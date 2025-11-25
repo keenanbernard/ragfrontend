@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: >
     NodeJS backend for the AI Knowledge Base platform.  
-    Provides endpoints that interact with the Flask Engine (embeddings, Pinecone, querying).
+    Provides endpoints that interact with the Flask Engine (querying, administration.
 
 servers:
   - url: http://localhost:3001
@@ -74,7 +74,7 @@ paths:
       summary: Bulk upload PDFs into the vector index
       description: >
         Reads all PDF files from a folder, extracts text (PyPDF2 or OCR fallback),
-        chunks the text, embeds using OpenAI, and uploads them to Pinecone.
+        chunks the text, embeds using OpenAI and uploads them to Pinecone.
       requestBody:
         required: true
         content:
@@ -128,7 +128,7 @@ paths:
     post:
       summary: Upload a single PDF
       description: >
-        Reads a single PDF, extracts text, chunks it, embeds it, and uploads it to the vector index.
+        Reads a single PDF, extracts text, chunks it, embeds it and uploads it to the vector index.
       requestBody:
         required: true
         content:
