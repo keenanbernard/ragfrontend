@@ -1,0 +1,117 @@
+# ─────────────────────────────
+# RAG System
+# ─────────────────────────────
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: rag-knowledge-platform
+  description: Internal RAG-based knowledge assistant for BTL docs & training
+  tags:
+    - ai
+    - rag
+    - pinecone
+spec:
+  owner: ai-rag-team
+
+---
+# ─────────────────────────────
+# Owning Team
+# ─────────────────────────────
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: ai-rag-team
+  description: Team responsible for the internal RAG chatbot platform
+spec:
+  type: team
+  profile:
+    displayName: AI RAG Team
+  children: []
+
+---
+# ─────────────────────────────
+# Backend Service (Flask / API)
+# ─────────────────────────────
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: rag-api
+  description: Backend service for RAG queries, embeddings, and Pinecone index operations
+  tags:
+    - python
+    - flask
+    - api
+    - rag
+spec:
+  type: service
+  lifecycle: experimental
+  owner: ai-rag-team
+  system: rag-knowledge-platform
+  providesApis:
+    - rag-query-api
+  dependsOn:
+    - resource:pinecone-rag-index
+    - resource:oracle-logging-db
+
+---
+# ─────────────────────────────
+# Frontend (React UI)
+# ─────────────────────────────
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: rag-frontend
+  description: React UI for interacting with the internal RAG chatbot
+  tags:
+    - react
+    - frontend
+spec:
+  type: website
+  lifecycle: experimental
+  owner: ai-rag-team
+  system: rag-knowledge-platform
+  dependsOn:
+    - component:rag-api
+
+---
+# ─────────────────────────────
+# RAG API Definition
+# ─────────────────────────────
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: rag-query-api
+  description: HTTP API for querying the RAG chatbot and managing documents
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: ai-rag-team
+  definition:
+    $text: ./openapi.yaml
+
+---
+# ─────────────────────────────
+# Resources (Pinecone Index, DB, etc.)
+# ─────────────────────────────
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: pinecone-rag-index
+  description: Pinecone index used to store document embeddings for the RAG system
+  tags:
+    - pinecone
+spec:
+  type: vector-index
+  owner: ai-rag-team
+  system: rag-knowledge-platform
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: oracle-logging-db
+  description: Oracle schema / table used for logging RAG queries and admin actions
+spec:
+  type: database
+  owner: ai-rag-team
+  system: rag-knowledge-platform
