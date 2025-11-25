@@ -8,7 +8,7 @@ metadata:
     - rag
     - json
 spec:
-  type: queryapi
+  type: query_api
   lifecycle: experimental
   owner: ai-rag-team
   system: rag-platform
