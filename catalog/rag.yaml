@@ -1,0 +1,67 @@
+openapi: 3.0.0
+info:
+  title: RAG NodeJS API
+  version: 1.0.0
+  description: >
+    NodeJS backend for the RAG platform.  
+    Provides endpoints that interact with the underlying Flask RAG engine (embeddings, Pinecone, querying).
+servers:
+  - url: http://localhost:3001
+    description: Local development server
+paths:
+  /query:
+    post:
+      summary: Query the RAG system
+      description: >
+        Sends a query and optional role to the Flask RAG backend,  
+        which performs vector search + LLM completion.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query
+              properties:
+                query:
+                  type: string
+                  example: "How do I renew certificates for WCF?"
+                role:
+                  type: string
+                  example: "developer"
+      responses:
+        '200':
+          description: RAG response returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: string
+                    example: "You can renew WCF certs by..."
+                  sources:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          description: Bad request — missing query
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Query is required"
+        '500':
+          description: Internal server error — backend processing failure
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Failed to get query response"
