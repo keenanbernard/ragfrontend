@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: rag-query-api
-  description: API rest call for querying the RAG system
+  name: rag-api-collection
+  description: API rest calls for interacting the RAG system
   tags:
     - api
     - rag
