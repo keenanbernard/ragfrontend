@@ -16,6 +16,69 @@ servers:
 
 paths:
 
+  /document-roles:
+    get:
+      summary: Fetch all roles assigned to a PDF
+      description: >
+        Returns aggregated roles for all stored chunks belonging to a PDF.
+      parameters:
+        - name: filename
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "leave_policy.pdf"
+      responses:
+        '200':
+          description: Roles found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  filename:
+                    type: string
+                  roles:
+                    type: array
+                    items:
+                      type: string
+                  chunk_count:
+                    type: integer
+                example:
+                  filename: leave_policy.pdf
+                  roles: ["general-user", "legal"]
+                  chunk_count: 12
+        '400':
+          description: Missing filename parameter
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Missing 'filename'"
+        '404':
+          description: No roles found for this document
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "No roles found for file."
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error fetching roles."
+
   /query:
     post:
       summary: Query the RAG system
@@ -196,6 +259,61 @@ paths:
                     type: string
                     example: "Error performing single upload."
 
+  /update-role:
+    put:
+      summary: Update roles for every chunk of a PDF
+      description: >
+        Updates metadata.roles for all chunks belonging to the given filename.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - filename
+                - roles
+              properties:
+                filename:
+                  type: string
+                  example: "leave_policy.pdf"
+                roles:
+                  type: array
+                  items:
+                    type: string
+                  example: ["general-user", "legal"]
+      responses:
+        '200':
+          description: Roles updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: string
+                    example: "Updated roles for 8 chunks of 'leave_policy.pdf'."
+        '400':
+          description: Missing parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Missing 'filename' or 'roles'."
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error updating roles."
+
   /delete/all:
     delete:
       summary: Delete all documents in the vector index
@@ -275,120 +393,3 @@ paths:
                     type: string
                     example: "Error deleting file."
 
-  /update-role:
-    put:
-      summary: Update roles for every chunk of a PDF
-      description: >
-        Updates metadata.roles for all chunks belonging to the given filename.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - filename
-                - roles
-              properties:
-                filename:
-                  type: string
-                  example: "leave_policy.pdf"
-                roles:
-                  type: array
-                  items:
-                    type: string
-                  example: ["general-user", "legal"]
-      responses:
-        '200':
-          description: Roles updated
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: string
-                    example: "Updated roles for 8 chunks of 'leave_policy.pdf'."
-        '400':
-          description: Missing parameters
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Missing 'filename' or 'roles'."
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Error updating roles."
-
-  /document-roles:
-    get:
-      summary: Fetch all roles assigned to a PDF
-      description: >
-        Returns aggregated roles for all stored chunks belonging to a PDF.
-      parameters:
-        - name: filename
-          in: query
-          required: true
-          schema:
-            type: string
-          example: "leave_policy.pdf"
-      responses:
-        '200':
-          description: Roles found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  filename:
-                    type: string
-                  roles:
-                    type: array
-                    items:
-                      type: string
-                  chunk_count:
-                    type: integer
-                example:
-                  filename: leave_policy.pdf
-                  roles: ["general-user", "legal"]
-                  chunk_count: 12
-        '400':
-          description: Missing filename parameter
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Missing 'filename'"
-        '404':
-          description: No roles found for this document
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "No roles found for file."
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: "Error fetching roles."
