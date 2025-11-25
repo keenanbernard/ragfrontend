@@ -6,6 +6,4 @@ spec:
   targets:
     - ./catalog/component.yaml
     - ./catalog/system.yaml
-    - ./catalog/api.yaml
-    - ./catalog/resources.yaml
 
