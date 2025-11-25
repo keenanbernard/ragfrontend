@@ -1,10 +1,10 @@
 openapi: 3.0.0
 info:
-  title: Query & PDF API
+  title: Query & Vector Administration APIs
   version: 1.0.0
   description: >
     NodeJS backend for the AI Knowledge Base platform.  
-    Provides endpoints that interact with the Flask Engine (querying, administration.
+    Provides endpoints that interact with the Flask Engine (querying, vector db administration)
 
 servers:
   - url: http://localhost:3001
