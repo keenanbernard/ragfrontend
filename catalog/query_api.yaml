@@ -32,7 +32,7 @@ paths:
                   example: "general-user"
       responses:
         '200':
-          description: RAG response returned
+          description: Success
           content:
             application/json:
               schema:
