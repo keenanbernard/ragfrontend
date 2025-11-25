@@ -9,6 +9,10 @@ info:
 servers:
   - url: http://localhost:3001
     description: Local development server
+  - url: http://127.0.0.1:5000/api/v1
+    description: Flask development server
+  - url: http://pythonraglocal-rag_query-1:5000/api/v1
+    description: Docker Network development server
 
 paths:
 
