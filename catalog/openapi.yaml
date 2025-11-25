@@ -7,7 +7,7 @@ info:
     Provides endpoints that interact with the Flask Engine (querying, vector db administration)
 
 servers:
-  - url: http://localhost:3001
+  - url: http://localhost:8000/api/v1/query
     description: Local development server
   - url: http://127.0.0.1:5000/api/v1
     description: Flask development server
