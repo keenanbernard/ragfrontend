@@ -1,11 +1,11 @@
 apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
-  name: rag-knowledge-platform
-  description: Internal RAG-based knowledge assistant for BTL docs & training
+  name: rag-platform
+  description: Internal retrieval-augmented generation (RAG) system for document search and chatbot functionality
   tags:
-    - ai
     - rag
+    - ai
     - pinecone
 spec:
   owner: ai-rag-team

@@ -2,12 +2,13 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: rag-frontend
-  description: React UI for interacting with the internal RAG chatbot
+  description: React-based UI for the internal RAG chatbot platform
   tags:
     - react
-    - frontend
+    - ui
+    - rag
 spec:
   type: website
   lifecycle: experimental
   owner: ai-rag-team
-  system: rag-knowledge-platform
+  system: rag-platform

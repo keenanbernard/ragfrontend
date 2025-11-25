@@ -6,7 +6,7 @@ spec:
   targets:
     - ./catalog/component.yaml
     - ./catalog/system.yaml
-    - ./catalog/group.yaml
     - ./catalog/api.yaml
     - ./catalog/resources.yaml
+    # - ./catalog/group.yaml   # enable ONLY if Group kind is allowed
 

@@ -2,8 +2,10 @@ apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
   name: ai-rag-team
-  description: Team responsible for the internal RAG chatbot platform
+  description: Team responsible for developing and maintaining the internal RAG platform
 spec:
   type: team
   profile:
     displayName: AI RAG Team
+    email: rag-team@internal.btl
+  children: []
