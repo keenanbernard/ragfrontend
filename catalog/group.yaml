@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: ai-rag-team
+  description: Team responsible for the internal RAG chatbot platform
+spec:
+  type: team
+  profile:
+    displayName: AI RAG Team
