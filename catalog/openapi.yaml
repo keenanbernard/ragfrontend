@@ -1,19 +1,22 @@
 openapi: 3.0.0
 info:
-  title: RAG NodeJS API
+  title: Query & PDF API
   version: 1.0.0
   description: >
-    NodeJS backend for the RAG platform.  
-    Provides endpoints that interact with the underlying Flask RAG engine (embeddings, Pinecone, querying).
+    NodeJS backend for the AI Knowledge Base platform.  
+    Provides endpoints that interact with the Flask Engine (embeddings, Pinecone, querying).
+
 servers:
   - url: http://localhost:3001
     description: Local development server
+
 paths:
+
   /query:
     post:
       summary: Query the RAG system
       description: >
-        Sends a query and optional role to the Flask RAG backend,  
+        Sends the user's query and role to the hosted backend Flask server,  
         which performs vector search + LLM completion.
       requestBody:
         required: true
@@ -26,13 +29,13 @@ paths:
               properties:
                 query:
                   type: string
-                  example: "How do I renew certificates for WCF?"
+                  example: "What is the fee paid for a call out and when does it apply?"
                 role:
                   type: string
-                  example: "developer"
+                  example: "general-user"
       responses:
         '200':
-          description: RAG response returned
+          description: Success
           content:
             application/json:
               schema:
@@ -40,13 +43,13 @@ paths:
                 properties:
                   answer:
                     type: string
-                    example: "You can renew WCF certs by..."
+                    example: "The fee paid for a Call-Out is $50.00..."
                   sources:
                     type: array
                     items:
                       type: string
         '400':
-          description: Bad request — missing query
+          description: Bad request
           content:
             application/json:
               schema:
@@ -54,9 +57,9 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: "Query is required"
+                    example: "No query provided."
         '500':
-          description: Internal server error — backend processing failure
+          description: Internal server error
           content:
             application/json:
               schema:
@@ -64,4 +67,324 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: "Failed to get query response"
+                    example: "Error querying Flask API.."
+
+  /upload/bulk:
+    post:
+      summary: Bulk upload PDFs into the vector index
+      description: >
+        Reads all PDF files from a folder, extracts text (PyPDF2 or OCR fallback),
+        chunks the text, embeds using OpenAI, and uploads them to Pinecone.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - folder
+              properties:
+                folder:
+                  type: string
+                  example: "/mnt/data/policies"
+                roles:
+                  type: array
+                  items:
+                    type: string
+                  example: ["general-user", "legal"]
+      responses:
+        '200':
+          description: Bulk upload completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: string
+                    example: "Bulk upload complete."
+        '404':
+          description: Folder not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Directory not found."
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error performing bulk upload."
+
+  /upload/single:
+    post:
+      summary: Upload a single PDF
+      description: >
+        Reads a single PDF, extracts text, chunks it, embeds it, and uploads it to the vector index.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - folder
+                - filename
+              properties:
+                folder:
+                  type: string
+                  example: "/mnt/data/policies"
+                filename:
+                  type: string
+                  example: "leave_policy.pdf"
+                roles:
+                  type: array
+                  items:
+                    type: string
+                  example: ["general-user", "legal"]
+      responses:
+        '200':
+          description: Single document uploaded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: string
+                    example: "leave_policy.pdf uploaded successfully."
+        '400':
+          description: Invalid file or extraction error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid file or extraction error."
+        '404':
+          description: File not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "File not found."
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error performing single upload."
+
+  /delete/all:
+    delete:
+      summary: Delete all documents in the vector index
+      description: Deletes every vector from the Pinecone index.
+      responses:
+        '200':
+          description: All documents deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: string
+                    example: "All documents deleted from index."
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error deleting all documents."
+
+  /delete/file:
+    delete:
+      summary: Delete all vectors associated with a file
+      description: >
+        Removes all chunks that belong to a specific file, using filename-based chunk IDs.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - filename
+              properties:
+                filename:
+                  type: string
+                  example: "leave_policy.pdf"
+      responses:
+        '200':
+          description: File chunks deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - "leave_policy.pdf_0"
+                      - "leave_policy.pdf_1"
+        '400':
+          description: Invalid request or missing filename
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Filename required."
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error deleting file."
+
+  /update-role:
+    put:
+      summary: Update roles for every chunk of a PDF
+      description: >
+        Updates metadata.roles for all chunks belonging to the given filename.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - filename
+                - roles
+              properties:
+                filename:
+                  type: string
+                  example: "leave_policy.pdf"
+                roles:
+                  type: array
+                  items:
+                    type: string
+                  example: ["general-user", "legal"]
+      responses:
+        '200':
+          description: Roles updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: string
+                    example: "Updated roles for 8 chunks of 'leave_policy.pdf'."
+        '400':
+          description: Missing parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Missing 'filename' or 'roles'."
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error updating roles."
+
+  /document-roles:
+    get:
+      summary: Fetch all roles assigned to a PDF
+      description: >
+        Returns aggregated roles for all stored chunks belonging to a PDF.
+      parameters:
+        - name: filename
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "leave_policy.pdf"
+      responses:
+        '200':
+          description: Roles found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  filename:
+                    type: string
+                  roles:
+                    type: array
+                    items:
+                      type: string
+                  chunk_count:
+                    type: integer
+                example:
+                  filename: leave_policy.pdf
+                  roles: ["general-user", "legal"]
+                  chunk_count: 12
+        '400':
+          description: Missing filename parameter
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Missing 'filename'"
+        '404':
+          description: No roles found for this document
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "No roles found for file."
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error fetching roles."
