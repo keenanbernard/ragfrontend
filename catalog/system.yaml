@@ -7,3 +7,5 @@ metadata:
     - ai
     - rag
     - pinecone
+spec:
+  owner: ai-rag-team
