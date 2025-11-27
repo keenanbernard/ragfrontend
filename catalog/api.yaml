@@ -11,6 +11,6 @@ spec:
   type: openapi
   lifecycle: experimental
   owner: ai-rag-team
-  system: rag-platform
+  subcomponentOf: rag-frontend
   definition:
     $text: ./openapi.yaml
