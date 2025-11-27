@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
-  name: RAG AI SYSTEM
+  name: rag-platform
   description: Internal retrieval-augmented generation (RAG) system for document search and chatbot functionality
   tags:
     - rag
