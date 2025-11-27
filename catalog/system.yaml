@@ -7,6 +7,6 @@ metadata:
     - rag
     - ai
     - pinecone
-    - knowledge-base4
+    - knowledge-base
 spec:
   owner: ai-rag-team
