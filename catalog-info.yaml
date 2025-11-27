@@ -4,9 +4,9 @@ metadata:
   name: ragfrontend-catalog
 spec:
   targets:
-    - ./catalog/component.yaml
+    - ./catalog/front-end.yaml
     - ./catalog/system.yaml
-    - ./catalog/api.yaml
-    - ./catalog/resources.yaml
+    - ./catalog/api-collection.yaml
+    - ./catalog/pinecone-resource.yaml
     # - ./catalog/group.yaml   # enable ONLY if Group kind is allowed
 

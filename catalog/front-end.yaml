@@ -2,11 +2,11 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: rag-frontend
-  description: React-based UI for the internal RAG chatbot platform
   links:
     - url: http://localhost:3000
       title: Knowledge Base Chatbot
       icon: dashboard
+  description: React-based UI for the internal RAG chatbot platform
   tags:
     - react
     - ui
