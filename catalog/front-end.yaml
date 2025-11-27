@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: rag-frontend
+  name: Knowledge-Base Chatbot
   links:
     - url: http://localhost:3000
       title: Knowledge Base Chatbot
