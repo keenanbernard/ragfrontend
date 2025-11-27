@@ -2,7 +2,7 @@ const axios = require('axios');
 const FLASK_BASE_URL = 'http://127.0.0.1:5000/api/v1';
 const DOCKER_BASE_URL = 'http://localhost:8000/api/v1';
 const DOCKER_NETWORK_URL = 'http://pythonraglocal-rag_query-1:5000/api/v1';
-const LIVE_BASE_URL = DOCKER_NETWORK_URL;
+const LIVE_BASE_URL = DOCKER_BASE_URL;
 
 const axiosInstance = axios.create({
     baseURL: LIVE_BASE_URL,
@@ -29,7 +29,7 @@ async function queryRAG(query, role) {
         return response.data;
     } catch (error) {
         console.error('Error querying Flask API:', error.response ? error.response.data : error.message);
-        return { error: 'An error occurred while communicating with the Flask API: queryRAG' };
+        return { error: `${error.response ? error.response.data.error : error.message}` };
     }
 }
 
